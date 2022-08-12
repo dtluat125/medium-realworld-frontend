@@ -84,7 +84,8 @@ async function onLoad(slug: string) {
 
     const comments = await getArticleComments(slug);
     store.dispatch(loadComments(comments));
-  } catch {
+  } catch (err) {
+    console.log(err);
     redirect('');
   }
 }

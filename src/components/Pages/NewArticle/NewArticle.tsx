@@ -15,8 +15,7 @@ export function NewArticle() {
 async function onSubmit(ev: FormEvent) {
   ev.preventDefault();
   store.dispatch(startSubmitting());
-  const result = await createArticle(store.getState().editor.article);
-
+  const result = await createArticle({ ...store.getState().editor.article });
   result.match({
     err: (errors) => store.dispatch(updateErrors(errors)),
     ok: ({ slug }) => {

@@ -42,6 +42,7 @@ export interface ArticleForEditor {
   description: string;
   body: string;
   tagList: string[];
+  favorited?: string;
 }
 
 export interface ArticlesFilters {

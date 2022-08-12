@@ -57,7 +57,7 @@ export async function unfavoriteArticle(slug: string): Promise<Article> {
 
 export async function updateSettings(user: UserSettings): Promise<Result<User, GenericErrors>> {
   try {
-    const { data } = await axios.put('user', user);
+    const { data } = await axios.put('user', { user });
 
     return Ok(guard(object({ user: userDecoder }))(data).user);
   } catch ({ data }) {
@@ -78,10 +78,9 @@ export async function signUp(user: UserForRegistration): Promise<Result<User, Ge
 export async function createArticle(article: ArticleForEditor): Promise<Result<Article, GenericErrors>> {
   try {
     const { data } = await axios.post('articles', { article });
-
     return Ok(guard(object({ article: articleDecoder }))(data).article);
-  } catch ({ response: { data } }) {
-    return Err(guard(object({ errors: genericErrorsDecoder }))(data).errors);
+  } catch ({ response }) {
+    return Err(guard(object({ errors: genericErrorsDecoder }))((response as { data: unknown })?.data)?.errors);
   }
 }
 
